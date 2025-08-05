@@ -1,5 +1,6 @@
 import { resources } from "./Resources";
 import { Sprite } from "./Sprite";
+import { Vector2 } from "./Vector2";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -35,12 +36,24 @@ const hero = new Sprite({
     },
 })
 
-const heroPos = new Vector2(16*5, 16*5);
+const heroPos = new Vector2(16*6, 16*5);
+
+const shadow = new Sprite({
+    resource: resources.images.shadow,
+    frameSize: new Vector2(32, 32),
+})
 
 const draw = () => {
    skySprite.drawImage(ctx, 0, 0);
-   groundSprite.drawImage(ctx, 0, 180);
-   hero.drawImage(ctx, heroPos.x, heroPos.y);
+   groundSprite.drawImage(ctx, 0, 0);
+
+   const heroOffset = new Vector2(-8, -21);
+   const heroPosX = heroPos.x + heroOffset.x;
+   const heroPosY = heroPos.y + heroOffset.y;
+   shadow.drawImage(ctx, heroPosX, heroPosY);
+   hero.drawImage(ctx, heroPosX, heroPosY);
 };
 
-setInterval(draw,  300);
+setInterval(() => {
+    draw();
+},  300);
